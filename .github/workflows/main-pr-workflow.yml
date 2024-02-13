@@ -36,6 +36,6 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -var-file="terraform.tfvars" -var="gcp_credentials=${{ secrets.GCP_SA_KEY }}"
+      run: terraform plan -var-file="terraform.tfvars" -var "gcp_credentials=${{ secrets.GCP_SA_KEY }}"
       # Ensure this command fails the workflow if terraform plan indicates an error
       continue-on-error: false
