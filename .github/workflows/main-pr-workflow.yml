@@ -1,0 +1,41 @@
+name: PRs to upstream from fork
+
+# Defines when the workflow should run
+on:
+  pull_request_target:
+    branches:
+      - main
+
+# Jobs to be executed
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }} # use current PRs code
+
+    - name: Decode terraform.tfvars
+      run: echo "${{ secrets.TFVARS_BASE64 }}" | base64 -d > terraform.tfvars
+
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 3.90.1 # Specify your Terraform version here
+
+    - name: Configure Google Cloud Credentials
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan -var-file="terraform.tfvars" -var="gcp_credentials=${{ secrets.GCP_SA_KEY }}"
+      # Ensure this command fails the workflow if terraform plan indicates an error
+      continue-on-error: false
