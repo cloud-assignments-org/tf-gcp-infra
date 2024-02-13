@@ -24,7 +24,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 3.90.1 # Specify your Terraform version here
+        terraform_version: 3.0.0 # Specify your Terraform version here
 
     - name: Configure Google Cloud Credentials
       uses: google-github-actions/setup-gcloud@v0.2.0
