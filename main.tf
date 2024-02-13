@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = jsonencode("${var.gcp_credentials}")
+  credentials = file(var.credentials_file_path)
   project     = var.project_id
   region      = var.region
 }
