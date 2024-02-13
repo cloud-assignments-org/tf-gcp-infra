@@ -47,3 +47,8 @@ variable "route_tags" {
   description = "Tags for the instances to which the route will apply"
   type        = list(string)
 }
+
+variable "credentials_file_path" {
+  description = "Path to the Google Cloud service account credentials JSON file"
+  type        = string
+}
