@@ -36,7 +36,7 @@ resource "google_compute_subnetwork" "db" {
 
 resource "google_compute_route" "zero_for_webapp" {
   name             = var.route_name
-  dest_range       = var.source_ranges_internet[0]
+  dest_range       = var.destination_range
   network          = google_compute_network.vpc.self_link
   priority         = var.route_priority
   tags             = var.route_tags
