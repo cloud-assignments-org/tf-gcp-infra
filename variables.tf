@@ -73,6 +73,11 @@ variable "next_hop_gateway" {
   type = string
 }
 
+variable "destination_range" {
+  description = "The destination range of outgoing packets that this route applies to. Only IPv4 is supported."
+  type = string
+}
+
 variable "credentials_file_path" {
   description = "Path to the Google Cloud service account credentials JSON file"
   type        = string
