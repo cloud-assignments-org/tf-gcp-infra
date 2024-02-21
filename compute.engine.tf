@@ -12,7 +12,7 @@ resource "google_compute_instance" "app_instance" {
   }
 
   network_interface {
-    network = google_compute_network.vpc.self_link
+    network    = google_compute_network.vpc.self_link
     subnetwork = google_compute_subnetwork.webapp.self_link
   }
 
