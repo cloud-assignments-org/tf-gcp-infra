@@ -15,9 +15,9 @@ provider "google" {
 
 resource "google_compute_network" "vpc" {
   name                    = var.vpc_name
-  auto_create_subnetworks = false
-  routing_mode            = "REGIONAL"
-  description = var.vpc_description
+  auto_create_subnetworks = var.auto_create_subnets
+  routing_mode            = var.routing_mode
+  description             = var.vpc_description
 }
 
 resource "google_compute_subnetwork" "webapp" {
@@ -35,10 +35,10 @@ resource "google_compute_subnetwork" "db" {
 }
 
 resource "google_compute_route" "zero_for_webapp" {
-  name            = var.route_name
-  dest_range      = "0.0.0.0/0"
-  network         = google_compute_network.vpc.self_link
-  priority        = 1000
-  tags            = var.route_tags
-  next_hop_gateway = "default-internet-gateway"
+  name             = var.route_name
+  dest_range       = var.source_ranges_internet[0]
+  network          = google_compute_network.vpc.self_link
+  priority         = var.route_priority
+  tags             = var.route_tags
+  next_hop_gateway = var.next_hop_gateway
 }
