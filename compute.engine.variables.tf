@@ -17,8 +17,3 @@ variable "disk_type" {
   type        = string
   description = "The Google Compute Engine disk type. One of pd-standard, pd-ssd or pd-balanced."
 }
-
-variable "service_account_scopes" {
-  type        = list(string)
-  description = "A list of service scopes."
-}
