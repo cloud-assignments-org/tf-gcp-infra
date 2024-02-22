@@ -68,6 +68,11 @@ variable "route_priority" {
   description = "The priority of this route. Priority is used to break ties in cases where there is more than one matching route of equal prefix length. In the case of two routes with equal prefix length, the one with the lowest-numbered priority value wins. Default value is 1000. Valid range is 0 through 65535."
 }
 
+variable "delete_default_routes" {
+  type        = bool
+  description = "Flag to mention default route creation status for the given vpc"
+}
+
 variable "next_hop_gateway" {
   description = "URL to a gateway that should handle matching packets."
   type        = string
