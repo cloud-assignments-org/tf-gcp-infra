@@ -14,9 +14,8 @@ resource "google_compute_instance" "app_instance" {
   network_interface {
     network    = google_compute_network.vpc.self_link
     subnetwork = google_compute_subnetwork.webapp.self_link
-  }
-
-  service_account {
-    scopes = var.service_account_scopes
+    access_config {
+      // Ephemeral public IP
+    }
   }
 }
