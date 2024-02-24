@@ -8,6 +8,7 @@ This assignment will focus on setting up our networking resources such as Virtua
 - When you create a Compute Engine instance, you can use the Compute Engine API to configure its network interfaces, including assigning it to a specific VPC and subnet, and setting up private and public IP addresses. This level of control is necessary for detailed network planning and security.
 - The Compute Engine API allows you to manage firewall rules that control ingress and egress traffic to instances within your VPCs. 
 - While specific to VPC management tasks, such as creating VPCs, subnets, and VPNs, are handled by the VPC Network API, the Compute Engine API is integral to deploying and managing resources that utilize the VPC.
+- 2. Service Networking API: 
 
 ### Commands to create subnet
 
