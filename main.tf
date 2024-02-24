@@ -8,7 +8,6 @@ terraform {
 }
 
 provider "google" {
-  credentials = file(var.credentials_file_path)
   project     = var.project_id
   region      = var.region
 }
@@ -40,6 +39,5 @@ resource "google_compute_route" "zero_for_webapp" {
   dest_range       = var.destination_range
   network          = google_compute_network.vpc.self_link
   priority         = var.route_priority
-  tags             = var.route_tags
   next_hop_gateway = var.next_hop_gateway
 }

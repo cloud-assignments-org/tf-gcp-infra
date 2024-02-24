@@ -53,11 +53,6 @@ variable "route_name" {
   type        = string
 }
 
-variable "route_tags" {
-  description = "Tags for the instances to which the route will apply"
-  type        = list(string)
-}
-
 variable "routing_mode" {
   type        = string
   description = "The network-wide routing mode to use. If set to 'REGIONAL', this network's cloud routers will only advertise routes with subnetworks of this network in the same region as the router. If set to 'GLOBAL', this network's cloud routers will advertise routes with all subnetworks of this network, across regions. Possible values: [\"REGIONAL\", \"GLOBAL\"]"
@@ -80,11 +75,6 @@ variable "next_hop_gateway" {
 
 variable "destination_range" {
   description = "The destination range of outgoing packets that this route applies to. Only IPv4 is supported."
-  type        = string
-}
-
-variable "credentials_file_path" {
-  description = "Path to the Google Cloud service account credentials JSON file"
   type        = string
 }
 
