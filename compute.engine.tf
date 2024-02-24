@@ -29,8 +29,8 @@ resource "google_compute_instance" "app_instance" {
     DB_TYPE="postgres"
     DB_HOST="${google_sql_database_instance.instance.private_ip_address}"
     DB_PORT=5432
-    DB_USERNAME="${google_sql_user.users.name}"
-    DB_PASSWORD="${google_sql_user.users.password}"
+    DB_USERNAME="${google_sql_user.user.name}"
+    DB_PASSWORD="${google_sql_user.user.password}"
     DB_NAME="${google_sql_database.database.name}" 
     EOF
 }
