@@ -6,39 +6,38 @@ resource "random_id" "db_name_suffix" {
 resource "google_sql_database_instance" "instance" {
   name                = "private-instance-${random_id.db_name_suffix.hex}"
   region              = var.region
-  database_version    = "POSTGRES_15"
-  deletion_protection = false
+  database_version    = var.database_version
+  deletion_protection = var.deletion_protection
   depends_on          = [google_service_networking_connection.default]
-
   settings {
-    # tier = "db-f1-micro" <----- use this for submission
-    tier = "db-custom-2-13312"
+    tier              = var.tier
+    availability_type = var.availability_type
+    disk_type         = var.db_disk_type
+    disk_size         = var.db_disk_size
+
     ip_configuration {
-      ipv4_enabled    = false
+      ipv4_enabled    = var.ipv4_enabled
       private_network = google_compute_network.vpc.self_link
     }
-    availability_type = "REGIONAL"
-    disk_type         = "PD_SSD"
-    disk_size         = 100
   }
 }
 
 # Creating the database
 resource "google_sql_database" "database" {
-  name     = "webapp"
+  name     = var.db_resource_name
   instance = google_sql_database_instance.instance.name
 }
 
 # Random password generator
 resource "random_password" "password" {
-  length           = 16
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
+  length           = var.password_length
+  special          = var.password_special
+  override_special = var.password_override_special
 }
 
 # Creating a user
-resource "google_sql_user" "users" {
-  name     = "webapp"
+resource "google_sql_user" "user" {
+  name     = var.db_resource_name
   instance = google_sql_database_instance.instance.name
   password = random_password.password.result
 }
