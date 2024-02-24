@@ -8,15 +8,15 @@ resource "google_compute_firewall" "allow_app_traffic" {
     protocol = var.application_protocol
     ports    = var.application_ports
   }
-  direction = "INGRESS"
+  direction     = var.direction_ingress
   source_ranges = var.source_ranges_internet
-  target_tags = var.allow_internet
+  target_tags   = var.allow_internet
 }
 
 resource "google_compute_firewall" "deny_ssh" {
-  name    = "${var.vpc_name}-deny-ssh"
-  network = google_compute_network.vpc.self_link
-  direction = "INGRESS"
+  name      = "${var.vpc_name}-deny-ssh"
+  network   = google_compute_network.vpc.self_link
+  direction = var.direction_ingress
   deny {
     protocol = var.ssh_protocol
     ports    = var.ssh_ports

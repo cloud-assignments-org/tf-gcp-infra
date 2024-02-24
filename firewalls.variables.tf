@@ -23,7 +23,12 @@ variable "source_ranges_internet" {
   description = "CIDR source range for requests coming in from the internet"
 }
 
-variable "allow_internet" { 
-  type = list(string)
+variable "allow_internet" {
+  type        = list(string)
   description = "List of tags that will be associated with firewall that allows access from the internet"
+}
+
+variable "direction_ingress" {
+  type        = string
+  description = "For firewalls incoming rules"
 }
