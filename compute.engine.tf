@@ -2,7 +2,7 @@ resource "google_compute_instance" "app_instance" {
   name         = var.instance_name
   machine_type = var.machine_type
   zone         = var.zone
-
+  tags         = var.allow_internet
   boot_disk {
     initialize_params {
       image = "projects/${var.project_id}/global/images/${var.image_name}"
