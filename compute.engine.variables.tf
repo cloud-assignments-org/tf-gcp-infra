@@ -1,3 +1,4 @@
+# Variables for the machine instance
 variable "instance_name" {
   type        = string
   description = "The name of the instance. One of name or self_link must be provided."

@@ -21,14 +21,14 @@ resource "google_compute_instance" "app_instance" {
 
   metadata_startup_script = <<-EOF
     #!/bin/bash
-    touch /opt/webapp/.env.development
-    : > /opt/webapp/.env.development
-    cat > /opt/webapp/.env.development <<-INNER_EOF
-    PORT=3000
+    touch ${var.config_file_loc}
+    : > ${var.config_file_loc}
+    cat > ${var.config_file_loc} <<-INNER_EOF
+    PORT="${var.app_port}"
     # DATABASE
-    DB_TYPE="postgres"
+    DB_TYPE="${var.db_type}"
     DB_HOST="${google_sql_database_instance.instance.private_ip_address}"
-    DB_PORT=5432
+    DB_PORT=${var.db_port}
     DB_USERNAME="${google_sql_user.user.name}"
     DB_PASSWORD="${google_sql_user.user.password}"
     DB_NAME="${google_sql_database.database.name}" 
