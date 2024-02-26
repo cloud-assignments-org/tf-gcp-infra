@@ -22,7 +22,7 @@ jobs:
         terraform_version: 1.5.7 # Specify your Terraform version here
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -upgrade
 
     - name: Terraform Validate
       run: terraform validate
