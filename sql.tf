@@ -24,9 +24,9 @@ resource "google_sql_database_instance" "instance" {
 
 # Creating the database
 resource "google_sql_database" "database" {
-  name     = var.db_resource_name
-  instance = google_sql_database_instance.instance.name
-  depends_on = [ google_sql_user.user ]
+  name       = var.db_resource_name
+  instance   = google_sql_database_instance.instance.name
+  depends_on = [google_sql_user.user]
 }
 
 # Random password generator
