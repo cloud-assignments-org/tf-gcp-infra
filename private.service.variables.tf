@@ -28,6 +28,6 @@ variable "private_connection_service" {
 
 variable "private_connection_service_deletion_policy" {
   description = "The deletion policy to follow for the private connection service during teardown"
-  type = string
-  default = "ABANDON"
+  type        = string
+  default     = "ABANDON"
 }
