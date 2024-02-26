@@ -15,4 +15,5 @@ resource "google_service_networking_connection" "default" {
   network                 = google_compute_network.vpc.self_link
   service                 = var.private_connection_service
   reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
+  deletion_policy         = var.private_connection_service_deletion_policy
 }

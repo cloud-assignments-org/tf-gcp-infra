@@ -24,3 +24,10 @@ variable "private_connection_service" {
   type        = string
   default     = "servicenetworking.googleapis.com"
 }
+
+
+variable "private_connection_service_deletion_policy" {
+  description = "The deletion policy to follow for the private connection service during teardown"
+  type = string
+  default = "ABANDON"
+}
