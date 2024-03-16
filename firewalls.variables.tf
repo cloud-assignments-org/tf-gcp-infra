@@ -19,15 +19,15 @@ variable "ssh_ports" {
 }
 
 variable "all_ports" {
-  type = list(string)
+  type        = list(string)
   description = "Mention all ports"
-  default = [ "all" ]
+  default     = ["all"]
 }
 
 variable "source_ranges_internet" {
   type        = list(string)
   description = "CIDR source range for requests coming in from the internet"
-  default = [ "0.0.0.0/0" ]
+  default     = ["0.0.0.0/0"]
 }
 
 variable "allow_internet" {
@@ -38,32 +38,32 @@ variable "allow_internet" {
 variable "direction_ingress" {
   type        = string
   description = "For firewalls incoming rules"
-  default = "INGRESS"
+  default     = "INGRESS"
 }
 
 variable "allow_app_traffic_priority" {
-  type = number
+  type        = number
   description = "This gives the priority value to this firewall rule"
 }
 
 variable "deny_ssh_priority" {
-  type = number
+  type        = number
   description = "This gives the priority value to this firewall rule"
 }
 
 variable "deny_all_priority" {
-  type = number
+  type        = number
   description = "This gives the priority value to this firewall rule"
 }
 
 variable "tcp_protocol" {
-  type = string
+  type        = string
   description = "Refers to the tcp protocol"
-  default = "tcp"
+  default     = "tcp"
 }
 
 variable "udp_protocol" {
-  type = string
+  type        = string
   description = "Refers to the udp protocol"
-  default = "udp"
+  default     = "udp"
 }
