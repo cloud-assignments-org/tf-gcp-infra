@@ -1,8 +1,8 @@
 # Add firewall rules to allow traffic to your application's port and deny SSH access from the internet.
 
 resource "google_compute_firewall" "allow_app_traffic" {
-  name    = "${var.vpc_name}-allow-app-traffic"
-  network = google_compute_network.vpc.self_link
+  name     = "${var.vpc_name}-allow-app-traffic"
+  network  = google_compute_network.vpc.self_link
   priority = var.allow_app_traffic_priority
 
   allow {
@@ -37,7 +37,7 @@ resource "google_compute_firewall" "deny_all_tcp" {
   }
 
   // currently 0.0.0.0/0 implies all IPv4 addresses
-  source_ranges = var.source_ranges_internet 
+  source_ranges = var.source_ranges_internet
 }
 
 resource "google_compute_firewall" "deny_all_udp" {
@@ -50,5 +50,5 @@ resource "google_compute_firewall" "deny_all_udp" {
   }
 
   // currently 0.0.0.0/0 implies all IPv4 addresses
-  source_ranges = var.source_ranges_internet 
+  source_ranges = var.source_ranges_internet
 }
