@@ -18,3 +18,8 @@ variable "disk_type" {
   type        = string
   description = "The Google Compute Engine disk type. One of pd-standard, pd-ssd or pd-balanced."
 }
+
+variable "allow_app_instance_stopping_for_update" {
+  type        = bool
+  description = "allows Terraform to stop the instance to update its properties. If you try to update a property that requires stopping the instance without setting this field, the update will fail."
+}

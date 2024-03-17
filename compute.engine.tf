@@ -19,6 +19,17 @@ resource "google_compute_instance" "app_instance" {
     }
   }
 
+  allow_stopping_for_update = var.allow_app_instance_stopping_for_update
+
+  service_account {
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    email = google_service_account.ops_agent_service_account.email
+    # https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes#--scopes
+    # We do  not restrict scopes here, rather we create roles for scopes to restrict access
+    # This is similar to assigning roles to users through IAM
+    scopes = ["cloud-platform"]
+  }
+
   metadata_startup_script = <<-EOF
     #!/bin/bash
     touch ${var.config_file_loc}
