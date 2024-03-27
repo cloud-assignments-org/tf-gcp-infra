@@ -1,5 +1,5 @@
 resource "google_vpc_access_connector" "connector" {
-  name          = "vpc-con"
-  ip_cidr_range = "10.0.2.0/28"
+  name          = var.serverless_connector_name
+  ip_cidr_range = var.serverless_connector_cidr
   network       = google_compute_network.vpc.self_link
 }
