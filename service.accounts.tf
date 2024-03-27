@@ -9,6 +9,6 @@ resource "google_service_account" "compute_instance_service_account" {
 }
 
 resource "google_service_account" "pub_sub_service_account" {
-  account_id   = "pub-sub-service-account"
-  display_name = "Pub Sub Service Account"
+  account_id   = var.pub_sub_service_account_id
+  display_name = var.pub_sub_service_account_disp_name
 }
