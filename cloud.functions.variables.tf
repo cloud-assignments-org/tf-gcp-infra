@@ -97,6 +97,22 @@ variable "email_server_API_KEY" {
   type = string
 }
 
+variable "mail_gun_api_key" {
+  type = string
+}
+
+variable "sender_full_name" {
+  type = string
+}
+
+variable "sender_email" {
+  type = string
+}
+
+variable "email_subject" {
+  type = string
+}
+
 # Function triggers ingress and egress 
 
 variable "vpc_connector_egress_settings" {
