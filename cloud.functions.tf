@@ -64,6 +64,7 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
     event_type            = var.event_type
     pubsub_topic          = google_pubsub_topic.user-created.id
     service_account_email = google_service_account.pub_sub_service_account.email
+    retry_policy          = var.event_trigger_retry_policy
   }
 }
 
