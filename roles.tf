@@ -7,7 +7,7 @@ resource "google_project_iam_binding" "logging_admin_role" {
   role    = var.logging_admin_role
 
   members = [
-    "serviceAccount:${google_service_account.ops_agent_service_account.email}"
+    "serviceAccount:${google_service_account.compute_instance_service_account.email}"
   ]
 }
 
@@ -19,6 +19,24 @@ resource "google_project_iam_binding" "monitoring_metric_writer" {
   role    = var.monitoring_metric_writer_role
 
   members = [
-    "serviceAccount:${google_service_account.ops_agent_service_account.email}"
+    "serviceAccount:${google_service_account.compute_instance_service_account.email}"
+  ]
+}
+
+resource "google_project_iam_binding" "pub_sub_publisher" {
+  project = var.project_id
+  role    = var.pub_sub_publisher_role
+
+  members = [
+    "serviceAccount:${google_service_account.compute_instance_service_account.email}"
+  ]
+}
+
+resource "google_project_iam_binding" "service_acc_token_creator" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+
+  members = [
+    "serviceAccount:${google_service_account.pub_sub_service_account.email}"
   ]
 }

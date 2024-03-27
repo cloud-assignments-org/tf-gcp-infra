@@ -23,11 +23,11 @@ resource "google_compute_instance" "app_instance" {
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email = google_service_account.ops_agent_service_account.email
+    email = google_service_account.compute_instance_service_account.email
     # https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes#--scopes
     # We do  not restrict scopes here, rather we create roles for scopes to restrict access
     # This is similar to assigning roles to users through IAM
-    scopes = ["cloud-platform"]
+    scopes = var.compute_instance_service_acc_scopes
   }
 
   metadata_startup_script = <<-EOF
@@ -43,9 +43,16 @@ resource "google_compute_instance" "app_instance" {
     DB_USERNAME="${google_sql_user.user.name}"
     DB_PASSWORD="${google_sql_user.user.password}"
     DB_NAME="${google_sql_database.database.name}" 
+    # Pub/Sub
+    USER_CREATED_TOPC="${var.pub_sub_topic_name}"
+    EMAIL_VALIDITY_MINUTES=2
     EOF
 }
 
 output "instance_public_ip" {
   value = google_compute_instance.app_instance.network_interface.0.access_config.0.nat_ip
+}
+
+output "pub_sub_topic_name" {
+  value = var.pub_sub_topic_name
 }
