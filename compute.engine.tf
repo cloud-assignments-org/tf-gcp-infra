@@ -45,7 +45,7 @@ resource "google_compute_instance" "app_instance" {
     DB_NAME="${google_sql_database.database.name}" 
     # Pub/Sub
     USER_CREATED_TOPC="${var.pub_sub_topic_name}"
-    EMAIL_VALIDITY_MINUTES=2
+    EMAIL_VALIDITY_MINUTES="${var.env_variables_validity_minutes}"
     EOF
 }
 
