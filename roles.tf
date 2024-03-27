@@ -37,7 +37,7 @@ resource "google_project_iam_binding" "pub_sub_publisher" {
 # This service account will be used to trigger the cloud function
 resource "google_project_iam_binding" "service_acc_token_creator" {
   project = var.project_id
-  role    = "roles/iam.serviceAccountTokenCreator"
+  role    = var.service_acc_token_creator_role
 
   members = [
     "serviceAccount:${google_service_account.pub_sub_service_account.email}"
@@ -53,7 +53,7 @@ resource "google_project_iam_binding" "service_acc_token_creator" {
 # roles/run.invoker
 resource "google_project_iam_binding" "cloud_functions_invoker" {
   project = var.project_id
-  role    = "roles/run.invoker"
+  role    = var.cloud_functions_run_invoker_role
   members = [
     "serviceAccount:${google_service_account.pub_sub_service_account.email}"
   ]

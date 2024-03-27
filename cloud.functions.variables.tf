@@ -38,11 +38,6 @@ variable "build_config_entrypoint" {
 }
 
 # Function service config
-
-
-
-
-
 variable "fn_max_instance_count" {
   type = number
 }
