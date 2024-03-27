@@ -15,7 +15,7 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
   location    = "us-central1"
   description = "This function triggers an email to users to have their user name validated"
 
-  depends_on = [ data.google_storage_bucket_object.cloud_fn_source ]
+  depends_on = [data.google_storage_bucket_object.cloud_fn_source]
 
   build_config {
     runtime     = "nodejs20"
@@ -47,13 +47,13 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
     }
     ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
-    service_account_email = google_service_account.pub_sub_service_account.email
+    service_account_email          = google_service_account.pub_sub_service_account.email
 
   }
 
   event_trigger {
-    event_type            = "google.cloud.pubsub.topic.v1.messagePublished"
-    pubsub_topic          = google_pubsub_topic.user-created.id
+    event_type   = "google.cloud.pubsub.topic.v1.messagePublished"
+    pubsub_topic = google_pubsub_topic.user-created.id
   }
 }
 
