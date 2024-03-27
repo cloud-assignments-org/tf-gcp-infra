@@ -12,10 +12,12 @@ resource "random_string" "cloud_fn_random_suffix" {
 
 resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" {
   name        = "trigger-user-verificaiton-email-${random_string.cloud_fn_random_suffix.result}"
-  location    = "us-central1"
+  location    = var.region
   description = "This function triggers an email to users to have their user name validated"
 
-  depends_on = [data.google_storage_bucket_object.cloud_fn_source]
+  depends_on = [data.google_storage_bucket_object.cloud_fn_source, 
+  google_vpc_access_connector.connector
+  ]
 
   build_config {
     runtime     = "nodejs20"
@@ -44,7 +46,16 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
       SET_VALIDITY_END_POINT = "user/setValidity"
       VALIDITY_MINUTES       = "2"
       MAILCHIMP_API_KEY      = "md-yz6F3wdSdOFqPdtTPVQFLQ"
+      DATABASE_USER     = "${google_sql_user.user.name}"
+      DATABASE_PASSWORD = "${google_sql_user.user.password}"
+      DATABASE_IP       = "${google_sql_database_instance.instance.private_ip_address}"
+      DB_PORT           = "${var.db_port}"
+      DB_NAME           = "${google_sql_database.database.name}"
+
     }
+    vpc_connector = google_vpc_access_connector.connector.self_link
+    vpc_connector_egress_settings = "PRIVATE_RANGES_ONLY"
+
     ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
   }
