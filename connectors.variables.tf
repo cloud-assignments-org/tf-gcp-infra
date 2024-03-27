@@ -1,9 +1,9 @@
 variable "serverless_connector_name" {
-  type = string
+  type        = string
   description = "Name of the serverless vpc connector"
 }
 
 variable "serverless_connector_cidr" {
-  type = string
+  type        = string
   description = "CIDR range of the serverless vpc connector"
 }
