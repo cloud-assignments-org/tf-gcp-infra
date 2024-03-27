@@ -51,6 +51,10 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
       DATABASE_IP            = google_sql_database_instance.instance.private_ip_address
       DB_PORT                = var.db_port
       DB_NAME                = google_sql_database.database.name
+      MAILGUN_API_KEY        = var.mail_gun_api_key
+      SENDER_FULL_NAME       = var.sender_full_name
+      SENDER_EMAIL           = var.sender_email
+      EMAIL_SUBJECT          = var.email_subject
 
     }
     vpc_connector                 = google_vpc_access_connector.connector.self_link
