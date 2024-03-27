@@ -47,13 +47,12 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
     }
     ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
-    service_account_email          = google_service_account.pub_sub_service_account.email
-
   }
 
   event_trigger {
-    event_type   = "google.cloud.pubsub.topic.v1.messagePublished"
-    pubsub_topic = google_pubsub_topic.user-created.id
+    event_type            = "google.cloud.pubsub.topic.v1.messagePublished"
+    pubsub_topic          = google_pubsub_topic.user-created.id
+    service_account_email = google_service_account.pub_sub_service_account.email
   }
 }
 
