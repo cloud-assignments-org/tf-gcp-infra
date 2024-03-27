@@ -12,3 +12,13 @@ variable "pub_sub_publisher_role" {
   type        = string
   description = "The role that has to be assigned"
 }
+
+variable "service_acc_token_creator_role" {
+  type        = string
+  description = "The role that has to be assigned"
+}
+
+variable "cloud_functions_run_invoker_role" {
+  type        = string
+  description = "The role that has to be assigned"
+}
