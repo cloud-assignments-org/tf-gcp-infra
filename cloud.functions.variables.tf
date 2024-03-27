@@ -107,6 +107,12 @@ variable "service_ingress_setting" {
   type = string
 }
 
+# Event trigger 
 variable "event_type" {
   type = string
+}
+
+variable "event_trigger_retry_policy" {
+  type        = string
+  description = "Describes the retry policy in case of function's execution failure. Retried execution is charged as any other execution. Possible values: ['RETRY_POLICY_UNSPECIFIED', 'RETRY_POLICY_DO_NOT_RETRY', 'RETRY_POLICY_RETRY']"
 }
