@@ -13,7 +13,7 @@ resource "google_compute_subnetwork" "db" {
 }
 
 # Subnet for the load balancer's proxies
-resource "google_compute_subnetwork" "proxy_only" {
+resource "google_compute_subnetwork" "lb_proxy_only" {
   name          = "proxy-only-subnet"
   ip_cidr_range = "10.0.3.0/24"
   network       = google_compute_network.vpc.id
