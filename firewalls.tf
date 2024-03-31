@@ -64,7 +64,7 @@ resource "google_compute_firewall" "health_check" {
   name = "fw-allow-health-check"
   allow {
     # Use port on which webapp is running
-    ports    = [var.var.app_port]
+    ports    = [var.app_port]
     protocol = "tcp"
   }
   direction     = "INGRESS"
@@ -96,7 +96,7 @@ resource "google_compute_firewall" "allow_load_balancer_proxy" {
   name = "fw-allow-proxies"
   allow {
     # Use port on which webapp is running
-    ports    = [var.var.app_port]
+    ports    = [var.app_port]
     protocol = "tcp"
   }
   direction = "INGRESS"

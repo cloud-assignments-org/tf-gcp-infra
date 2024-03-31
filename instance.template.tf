@@ -48,8 +48,6 @@ resource "google_compute_instance_template" "webapp" {
     provisioning_model  = "STANDARD"
   }
 
-  allow_stopping_for_update = var.allow_app_instance_stopping_for_update
-
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email = google_service_account.compute_instance_service_account.email
