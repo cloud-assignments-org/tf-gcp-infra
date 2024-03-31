@@ -1,6 +1,6 @@
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance_group_manager
 
-resource "google_compute_instance_group_manager" "manager" {
+resource "google_compute_instance_group_manager" "webapp" {
   name = "l7-xlb-backend-example"
   zone = var.zone
   # For your instance group, define an HTTP service 
