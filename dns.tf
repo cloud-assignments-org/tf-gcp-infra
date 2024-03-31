@@ -8,7 +8,8 @@ resource "google_dns_record_set" "webapp" {
 
   managed_zone = data.google_dns_managed_zone.public-zone.name
 
-  rrdatas = [google_compute_instance.app_instance.network_interface[0].access_config[0].nat_ip]
+  # Stop usign the compute instance henceforth, and start using the load balancer IP
+  rrdatas = [google_compute_address.load_balancer_ip.address]
 }
 
 data "google_dns_managed_zone" "public-zone" {
