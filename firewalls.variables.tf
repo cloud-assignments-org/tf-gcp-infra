@@ -85,10 +85,7 @@ variable "health_check_firewall_source_ranges" {
   default     = ["130.211.0.0/22", "35.191.0.0/16"]
 }
 
-variable "health_check_firewall_target_tags" {
-  type        = list(string)
-  description = "A list of instance tags for the health check firewall, indicating the set of instances in the network that the firewall policy applies to"
-}
+
 
 variable "health_check_firewall_protocol" {
   type        = string
@@ -118,10 +115,6 @@ variable "allow_lb_proxy_source_ranges" {
   description = "The source IP ranges that are allowed to access the load balancer proxy firewall"
 }
 
-variable "allow_lb_proxy_target_tags" {
-  type        = list(string)
-  description = "A list of instance tags for the load balancer proxy firewall, indicating the set of instances in the network that the firewall policy applies to"
-}
 
 variable "allow_lb_proxy_protocol" {
   type        = string
