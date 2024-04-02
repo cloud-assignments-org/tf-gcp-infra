@@ -6,12 +6,12 @@ resource "google_compute_region_instance_template" "webapp" {
   # Disks to attach to instances created from this template. 
   # This can be specified multiple times for multiple disks.
   disk {
-    auto_delete  = true
-    boot         = true
-    device_name  = "persistent-disk-0"
-    mode         = "READ_WRITE"
+    auto_delete  = var.webapp_disk_auto_delete
+    boot         = var.webapp_disk_boot
+    device_name  = var.webapp_disk_device_name
+    mode         = var.webapp_disk_mode
     source_image = "projects/${var.project_id}/global/images/${var.image_name}"
-    type         = "PERSISTENT"
+    type         = var.webapp_disk_type
     disk_size_gb = var.machine_size
   }
   machine_type = var.machine_type
@@ -43,9 +43,9 @@ resource "google_compute_region_instance_template" "webapp" {
   }
   region = var.region
   scheduling {
-    automatic_restart   = true
-    on_host_maintenance = "MIGRATE"
-    provisioning_model  = "STANDARD"
+    automatic_restart   = var.webapp_scheduling_automatic_restart
+    on_host_maintenance = var.webapp_scheduling_on_host_maintenance
+    provisioning_model  = var.webapp_scheduling_provisioning_model
   }
 
   service_account {
@@ -59,5 +59,5 @@ resource "google_compute_region_instance_template" "webapp" {
 
   # this tag will ensure the firewall rules are applied to instances of this tempalte
   # No other tags are required here
-  tags = ["load-balanced-backend"]
+  tags = [var.load_balanced_backedn_tag]
 }
