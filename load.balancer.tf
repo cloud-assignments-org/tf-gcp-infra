@@ -81,36 +81,23 @@ This confirms that the instance is consistently responding as
 expected before it is marked healthy.
 
 */
-resource "google_compute_region_health_check" "webapp" {
-  name               = "l7-xlb-basic-check"
+
+resource "google_compute_health_check" "webapp" {
+  name               = "webapp-global-health-check"
   check_interval_sec = 60
   healthy_threshold  = 2
   http_health_check {
     port_specification = "USE_SERVING_PORT"
-    proxy_header       = "NONE"
     request_path       = "/healthz"
   }
-  region              = var.region
   timeout_sec         = 10
   unhealthy_threshold = 3
 }
 
-
-/*
-Regional backend service : 
-https://cloud.google.com/compute/docs/reference/rest/v1/regionBackendServices
-
-A backend service defines how Google Cloud load balancers distribute traffic. 
-The backend service configuration contains a set of values, such as the protocol 
-used to connect to backends, various distribution and session settings, 
-health checks, and timeouts. These settings provide fine-grained control over
-how your load balancer behaves.
-*/
-resource "google_compute_region_backend_service" "webapp" {
-  name                  = "l7-xlb-backend-service"
-  region                = var.region
+resource "google_compute_backend_service" "webapp" {
+  name                  = "webapp-global-backend-service"
   load_balancing_scheme = "EXTERNAL_MANAGED"
-  health_checks         = [google_compute_region_health_check.webapp.id]
+  health_checks         = [google_compute_health_check.webapp.id]
   protocol              = "HTTP"
   session_affinity      = "NONE"
   timeout_sec           = 30
@@ -122,66 +109,29 @@ resource "google_compute_region_backend_service" "webapp" {
   depends_on = [google_compute_region_instance_group_manager.webapp]
 }
 
+resource "google_compute_url_map" "webapp" {
+  name            = "webapp-url-map"
+  default_service = google_compute_backend_service.webapp.id
+  depends_on = [ google_compute_backend_service.webapp  ]
+} 
 
-/*
-URL Map
-
-Regional URL Map: A URL map is a set of rules that 
-define how incoming requests are routed to backend services or backend buckets. 
-A regional URL map is one that is specific to a particular region, 
-as opposed to a global URL map, which is not tied to any specific region.
-
-We have optional rules and paths that we can check to route traffic to different
-backend services, but here since we don't have any separation, 
-we stick to the default
-*/
-resource "google_compute_region_url_map" "webapp" {
-  name            = "regional-l7-xlb-map"
-  region          = var.region
-  default_service = google_compute_region_backend_service.webapp.id
-
+resource "google_compute_managed_ssl_certificate" "webapp_lb" {
+  name = "webapp-ssl-cert"
+  
+  managed {
+    domains = [var.domain_name]
+  }
 }
 
-/*
-REGION_TARGET_PROXY
-The google_compute_region_target_http_proxy resource in Google Cloud 
-is a regional component that acts as a regional HTTP(S) load balancer's 
-target proxy. 
-
-What is a Proxy ? 
-A proxy, in the context of computer networks, acts as an intermediary between 
-a client and a server. It receives requests from clients, forwards them to 
-the server, and then relays the server's response back to the client. 
-Proxies are used for various purposes, such as improving performance 
-through caching, enforcing policies, providing anonymity for users, and 
-balancing load among several servers.
-
-A target proxy in cloud computing, particularly in the context of 
-load balancing, is a specific type of proxy that forwards client 
-requests to an appropriate backend service based on the configurations 
-and rules defined in a URL map or similar routing mechanism. 
-
-Load Balancing: A target proxy is a component in a load balancing 
-configuration that receives incoming traffic and uses a URL map to 
-decide how to distribute the traffic across various backend services.
-
-Protocol-Specific: There are different types of target proxies for different 
-protocols, such as HTTP(S) target proxies for web traffic and SSL target 
-proxies for encrypted traffic.
-
-Integration with URL Maps: Target proxies use URL maps to make routing 
-decisions. The URL map defines rules based on request attributes 
-(like URL paths) that determine which backend service should handle the request.
-*/
-
-/*
-We need to use a regional https target proxy since we need to enable SSL 
-However to start with setting this up , we use a http target proxy
-*/
-resource "google_compute_region_target_http_proxy" "webapp" {
-  name    = "l7-xlb-proxy"
-  region  = var.region
-  url_map = google_compute_region_url_map.webapp.id
+resource "google_compute_target_https_proxy" "webapp" {
+  name    = "webapp-target-htttp-proxy"
+  url_map = google_compute_url_map.webapp.id
+  ssl_certificates = [
+    google_compute_managed_ssl_certificate.webapp_lb.name
+  ]
+  depends_on = [
+    google_compute_managed_ssl_certificate.webapp_lb
+  ]
 }
 
 /*
@@ -192,16 +142,12 @@ forward a packet to if it matches the given [IPAddress, IPProtocol, portRange]
 tuple.1
 */
 
-resource "google_compute_forwarding_rule" "webapp" {
+resource "google_compute_global_forwarding_rule" "webapp" {
   name       = "l7-xlb-forwarding-rule"
   depends_on = [google_compute_subnetwork.lb_proxy_only]
-  region     = var.region
-
   ip_protocol           = "TCP"
   load_balancing_scheme = "EXTERNAL_MANAGED"
-  port_range            = "80"
-  target                = google_compute_region_target_http_proxy.webapp.id
-  network               = google_compute_network.vpc.id
-  ip_address            = google_compute_address.load_balancer_ip.id
-  network_tier          = "STANDARD"
+  port_range            = "443"
+  target                = google_compute_target_https_proxy.webapp.id
+  ip_address            = google_compute_global_address.load_balancer_ip.id
 }
