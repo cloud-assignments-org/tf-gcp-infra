@@ -68,10 +68,6 @@ variable "env_variable_protocol" {
   type = string
 }
 
-variable "env_variable_domain" {
-  type = string
-}
-
 variable "env_variables_api_port" {
   type = string
 }
@@ -105,7 +101,7 @@ variable "sender_full_name" {
   type = string
 }
 
-variable "sender_email" {
+variable "sender_email_user_name" {
   type = string
 }
 
