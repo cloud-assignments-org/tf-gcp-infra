@@ -40,3 +40,4 @@ variable "webapp_scheduling_provisioning_model" {
   type        = string
   description = "Defines the provisioning model for the instance"
 }
+
