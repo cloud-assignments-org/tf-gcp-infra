@@ -39,7 +39,7 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
     available_cpu                    = var.fn_available_cpu_str
     environment_variables = {
       PROTOCOL               = var.env_variable_protocol
-      DOMAIN                 = var.env_variable_domain
+      DOMAIN                 = var.domain_name
       API_PORT               = var.env_variables_api_port
       VERSION                = var.env_variables_api_version
       VERIFY_END_POINT       = var.env_variables_verify_end_point
@@ -53,7 +53,7 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
       DB_NAME                = google_sql_database.database.name
       MAILGUN_API_KEY        = var.mail_gun_api_key
       SENDER_FULL_NAME       = var.sender_full_name
-      SENDER_EMAIL           = var.sender_email
+      SENDER_EMAIL           = "${var.sender_email_user_name}@${var.domain_name}"
       EMAIL_SUBJECT          = var.email_subject
 
     }
@@ -65,13 +65,10 @@ resource "google_cloudfunctions2_function" "trigger_user_verification_email_fn" 
   }
 
   event_trigger {
+    trigger_region        = var.region
     event_type            = var.event_type
     pubsub_topic          = google_pubsub_topic.user-created.id
     service_account_email = google_service_account.pub_sub_service_account.email
     retry_policy          = var.event_trigger_retry_policy
   }
-}
-
-output "google_cloudfunctions2_function_name" {
-  value = google_cloudfunctions2_function.trigger_user_verification_email_fn.name
 }
