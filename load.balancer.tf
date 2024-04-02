@@ -38,10 +38,52 @@ routing and performance optimization of your application traffic.
 
 /*
 HEALTH CHECK RESOURCE
+
+Check Interval
+This is the frequency at which the health checks are performed. 
+Setting it too low might not give enough time for transient issues 
+to resolve themselves.
+
+Recommended Check Interval: 1 minute (60 seconds). This ensures 
+that the system isn't constantly in a state of flux and provides 
+a buffer for temporary issues to be resolved.
+
+Unhealthy Threshold
+This determines how many consecutive failed health checks are needed 
+before an instance is considered unhealthy and subject to replacement.
+Given your application's characteristics, it's wise to allow for some 
+failures before taking action, to avoid reacting to transient or 
+insignificant issues.
+
+Recommended Unhealthy Threshold: 2-3 consecutive failures. 
+This setting means that an instance must fail the health check 2-3 
+times in a row before being considered unhealthy, providing a cushion 
+against temporary glitches.
+
+Health Check Timeout
+This is the amount of time allowed for a response to a health check. 
+If your application response times can vary, especially under load,
+you'll want to ensure the timeout isn't too aggressive.
+
+Recommended Timeout: At least 10 seconds. This should be more than 
+enough if the application is operational but should be adjusted based 
+on observed response times under load.
+
+Healthy Threshold
+This is the number of consecutive successful health checks required 
+to consider an instance healthy again after it has been marked 
+unhealthy. This parameter is crucial to ensure that an instance is 
+genuinely recovered and not oscillating between healthy and unhealthy 
+states.
+
+Recommended Healthy Threshold: 2 consecutive successes. 
+This confirms that the instance is consistently responding as 
+expected before it is marked healthy.
+
 */
 resource "google_compute_region_health_check" "webapp" {
   name               = "l7-xlb-basic-check"
-  check_interval_sec = 5
+  check_interval_sec = 60
   healthy_threshold  = 2
   http_health_check {
     port_specification = "USE_SERVING_PORT"
@@ -49,9 +91,10 @@ resource "google_compute_region_health_check" "webapp" {
     request_path       = "/healthz"
   }
   region              = var.region
-  timeout_sec         = 5
-  unhealthy_threshold = 2
+  timeout_sec         = 10
+  unhealthy_threshold = 3
 }
+
 
 /*
 Regional backend service : 
@@ -72,11 +115,13 @@ resource "google_compute_region_backend_service" "webapp" {
   session_affinity      = "NONE"
   timeout_sec           = 30
   backend {
-    group           = google_compute_instance_group_manager.webapp.instance_group
+    group           = google_compute_region_instance_group_manager.webapp.instance_group
     balancing_mode  = "UTILIZATION"
     capacity_scaler = 1.0
   }
+  depends_on = [google_compute_region_instance_group_manager.webapp]
 }
+
 
 /*
 URL Map
