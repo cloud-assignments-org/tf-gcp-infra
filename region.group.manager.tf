@@ -1,8 +1,8 @@
-# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance_group_manager
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_region_instance_group_manager
 
-resource "google_compute_instance_group_manager" "webapp" {
-  name = "l7-xlb-backend-example"
-  zone = var.zone
+resource "google_compute_region_instance_group_manager" "webapp" {
+  name   = "l7-xlb-backend-example"
+  region = var.region
   # For your instance group, define an HTTP service 
   # and map a port name to the relevant port. 
   # The backend service of the load balancer forwards 
@@ -23,7 +23,5 @@ resource "google_compute_instance_group_manager" "webapp" {
     name              = "primary"
   }
   base_instance_name = "webapp-vm"
-  # For now we set this to 2, 
-  # But once we set up auto scaing we shuold set it back to 0
-  target_size = 2
+
 }
