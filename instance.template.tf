@@ -37,9 +37,6 @@ resource "google_compute_region_instance_template" "webapp" {
   network_interface {
     network    = google_compute_network.vpc.self_link
     subnetwork = google_compute_subnetwork.webapp.self_link
-    access_config {
-      // Ephemeral public IP
-    }
   }
   region = var.region
   scheduling {
