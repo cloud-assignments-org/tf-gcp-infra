@@ -83,40 +83,41 @@ expected before it is marked healthy.
 */
 
 resource "google_compute_health_check" "webapp" {
-  name               = "webapp-global-health-check"
-  check_interval_sec = 60
-  healthy_threshold  = 2
+  name               = var.health_check_name
+  check_interval_sec = var.health_check_interval_sec
+  healthy_threshold  = var.health_check_healthy_threshold
   http_health_check {
-    port_specification = "USE_SERVING_PORT"
-    request_path       = "/healthz"
+    port_specification = var.health_check_port_specification
+    request_path       = var.health_check_request_path
   }
-  timeout_sec         = 10
-  unhealthy_threshold = 3
+  timeout_sec         = var.health_check_timeout_sec
+  unhealthy_threshold = var.health_check_unhealthy_threshold
 }
 
 resource "google_compute_backend_service" "webapp" {
-  name                  = "webapp-global-backend-service"
-  load_balancing_scheme = "EXTERNAL_MANAGED"
+  name                  = var.backend_service_name
+  load_balancing_scheme = var.backend_service_load_balancing_scheme
   health_checks         = [google_compute_health_check.webapp.id]
-  protocol              = "HTTP"
-  session_affinity      = "NONE"
-  timeout_sec           = 30
+  protocol              = var.backend_service_protocol
+  session_affinity      = var.backend_service_session_affinity
+  timeout_sec           = var.backend_service_timeout_sec
   backend {
     group           = google_compute_region_instance_group_manager.webapp.instance_group
-    balancing_mode  = "UTILIZATION"
-    capacity_scaler = 1.0
+    balancing_mode  = var.backend_balancing_mode
+    capacity_scaler = var.backend_capacity_scaler
   }
   depends_on = [google_compute_region_instance_group_manager.webapp]
 }
 
+
 resource "google_compute_url_map" "webapp" {
-  name            = "webapp-url-map"
+  name            = var.url_map_name
   default_service = google_compute_backend_service.webapp.id
   depends_on = [ google_compute_backend_service.webapp  ]
 } 
 
 resource "google_compute_managed_ssl_certificate" "webapp_lb" {
-  name = "webapp-ssl-cert"
+  name = var.ssl_certificate_name
   
   managed {
     domains = [var.domain_name]
@@ -124,7 +125,7 @@ resource "google_compute_managed_ssl_certificate" "webapp_lb" {
 }
 
 resource "google_compute_target_https_proxy" "webapp" {
-  name    = "webapp-target-htttp-proxy"
+  name    = var.https_proxy_name
   url_map = google_compute_url_map.webapp.id
   ssl_certificates = [
     google_compute_managed_ssl_certificate.webapp_lb.name
