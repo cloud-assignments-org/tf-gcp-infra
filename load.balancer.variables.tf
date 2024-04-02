@@ -91,3 +91,31 @@ variable "https_proxy_name" {
   description = "The name of target HTTPS proxy"
   default = "webapp-target-htttp-proxy"
 }
+
+# Reserver IP
+variable "global_address_name" {
+  type        = string
+  description = "The name of the global address"
+}
+
+variable "global_address_type" {
+  type        = string
+  description = "The address type of the global address"
+}
+
+
+# Load balancer forwarding rule
+variable "forwarding_rule_name" {
+  type        = string
+  description = "The name of the global forwarding rule"
+}
+
+variable "forwarding_rule_ip_protocol" {
+  type        = string
+  description = "The IP protocol used by the global forwarding rule"
+}
+
+variable "forwarding_rule_load_balancing_scheme" {
+  type        = string
+  description = "The load balancing scheme used by the global forwarding rule"
+}
