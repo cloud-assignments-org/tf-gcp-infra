@@ -1,4 +1,4 @@
-resource "google_compute_instance_template" "webapp" {
+resource "google_compute_region_instance_template" "webapp" {
   name = "webapp-template"
 
   # Here we bring in the same config as we have for our compute instance
@@ -11,7 +11,8 @@ resource "google_compute_instance_template" "webapp" {
     device_name  = "persistent-disk-0"
     mode         = "READ_WRITE"
     source_image = "projects/${var.project_id}/global/images/${var.image_name}"
-    type         = var.disk_type
+    type         = "PERSISTENT"
+    # disk_type    = var.disk_type
     disk_size_gb = var.machine_size
   }
   machine_type = var.machine_type

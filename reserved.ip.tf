@@ -3,9 +3,7 @@
 # Commented for now, since we will be using an ephemeral IP
 # But required when we do it in production
 # Keeping this commented for now
-resource "google_compute_address" "load_balancer_ip" {
+resource "google_compute_global_address" "load_balancer_ip" {
   name         = "load-balancer-ip"
   address_type = "EXTERNAL"
-  network_tier = "STANDARD"
-  region       = var.region
 }

@@ -19,7 +19,7 @@ resource "google_compute_region_instance_group_manager" "webapp" {
     # the webapp service needs to be running on the same port
   }
   version {
-    instance_template = google_compute_instance_template.webapp.id
+    instance_template = google_compute_region_instance_template.webapp.id
     name              = "primary"
   }
   base_instance_name = "webapp-vm"
