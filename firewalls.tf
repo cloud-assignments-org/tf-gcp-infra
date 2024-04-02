@@ -54,7 +54,7 @@ resource "google_compute_firewall" "health_check" {
   network       = google_compute_network.vpc.id
   priority      = var.health_check_firewall_priority
   source_ranges = var.health_check_firewall_source_ranges
-  target_tags   = var.health_check_firewall_target_tags
+  target_tags   = [var.load_balanced_backedn_tag]
 }
 
 
@@ -86,5 +86,5 @@ resource "google_compute_firewall" "allow_load_balancer_proxy" {
   network       = google_compute_network.vpc.id
   priority      = var.allow_lb_proxy_priority
   source_ranges = var.allow_lb_proxy_source_ranges
-  target_tags   = var.allow_lb_proxy_target_tags
+  target_tags   = [var.load_balanced_backedn_tag]
 }
