@@ -135,6 +135,17 @@ resource "google_compute_target_https_proxy" "webapp" {
   ]
 }
 
+# Reserve an external IP address for the load balancer.
+# We will pointing our domain to this external IP in our DNS zone
+# Commented for now, since we will be using an ephemeral IP
+# But required when we do it in production
+# Keeping this commented for now
+resource "google_compute_global_address" "load_balancer_ip" {
+  name         = var.global_address_name
+  address_type = var.global_address_type
+}
+
+
 /*
 GOOGLE_COMPUTE_FORWARDING_RULE
 
@@ -144,11 +155,11 @@ tuple.1
 */
 
 resource "google_compute_global_forwarding_rule" "webapp" {
-  name       = "l7-xlb-forwarding-rule"
-  depends_on = [google_compute_subnetwork.lb_proxy_only]
-  ip_protocol           = "TCP"
-  load_balancing_scheme = "EXTERNAL_MANAGED"
-  port_range            = "443"
-  target                = google_compute_target_https_proxy.webapp.id
-  ip_address            = google_compute_global_address.load_balancer_ip.id
+  name                   = var.forwarding_rule_name
+  depends_on             = [google_compute_subnetwork.lb_proxy_only]
+  ip_protocol            = var.forwarding_rule_ip_protocol
+  load_balancing_scheme  = var.forwarding_rule_load_balancing_scheme
+  port_range             = var.env_variables_api_port
+  target                 = google_compute_target_https_proxy.webapp.id
+  ip_address             = google_compute_global_address.load_balancer_ip.id
 }
