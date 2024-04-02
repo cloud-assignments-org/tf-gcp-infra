@@ -8,18 +8,19 @@ according to an autoscaling policy that you define.
 */
 
 resource "google_compute_region_autoscaler" "webapp" {
-  name   = "webapp-autoscaler"
+  name   = var.auto_scaler_name
   region = var.region
   target = google_compute_region_instance_group_manager.webapp.id
 
   autoscaling_policy {
-    max_replicas    = 6
-    min_replicas    = 1
-    cooldown_period = 25
-    mode            = "ON"
+    max_replicas    = var.auto_scaler_max_replicas
+    min_replicas    = var.auto_scaler_min_replicas
+    cooldown_period = var.auto_scaler_cooldown_period
+    mode            = var.auto_scaler_mode
 
     cpu_utilization {
-      target = 0.25
+      target = var.auto_scaler_target_cpu_utilization
     }
   }
+
 }
