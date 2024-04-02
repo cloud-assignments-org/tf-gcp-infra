@@ -82,3 +82,26 @@ variable "image_name" {
   description = "Name of the custom image that needs to be used to start a VM instance"
   type        = string
 }
+
+
+# Load Balancer Proxy SubNet
+variable "subnetwork_name" {
+  type        = string
+  description = "The name of the subnetwork"
+}
+
+variable "subnetwork_ip_cidr_range" {
+  type        = string
+  description = "The IP CIDR range for the subnetwork"
+}
+
+variable "subnetwork_purpose" {
+  type        = string
+  description = "The purpose of the subnetwork"
+}
+
+variable "subnetwork_role" {
+  type        = string
+  description = "The role of the subnetwork"
+}
+

@@ -14,10 +14,11 @@ resource "google_compute_subnetwork" "db" {
 
 # Subnet for the load balancer's proxies
 resource "google_compute_subnetwork" "lb_proxy_only" {
-  name          = "proxy-only-subnet"
-  ip_cidr_range = "10.0.3.0/24"
+  name          = var.subnetwork_name
+  ip_cidr_range = var.subnetwork_ip_cidr_range
   network       = google_compute_network.vpc.id
-  purpose       = "REGIONAL_MANAGED_PROXY"
+  purpose       = var.subnetwork_purpose
   region        = var.region
-  role          = "ACTIVE"
+  role          = var.subnetwork_role
 }
+
