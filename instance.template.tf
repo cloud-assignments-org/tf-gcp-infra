@@ -12,7 +12,6 @@ resource "google_compute_region_instance_template" "webapp" {
     mode         = "READ_WRITE"
     source_image = "projects/${var.project_id}/global/images/${var.image_name}"
     type         = "PERSISTENT"
-    # disk_type    = var.disk_type
     disk_size_gb = var.machine_size
   }
   machine_type = var.machine_type
