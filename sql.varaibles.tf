@@ -60,3 +60,12 @@ variable "db_resource_name" {
   // You can provide a default name, or leave it without a default to require it to be specified.
   default = "webapp"
 }
+
+
+variable "google_secret_manager_secret_DB_HOST_SECRET_ID" {
+  type = string
+}
+
+variable "google_secret_manager_secret_DB_PASSWD_SECRET_ID" {
+  type = string
+}
