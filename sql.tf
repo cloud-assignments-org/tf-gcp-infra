@@ -55,7 +55,7 @@ resource "google_secret_manager_secret" "DB_HOST" {
     }
   }
 
-  secret_id = "SQL_DB_HOST"
+  secret_id = var.google_secret_manager_secret_DB_HOST_SECRET_ID
 }
 
 resource "google_secret_manager_secret_version" "DB_HOST_VALUE" {
@@ -72,7 +72,7 @@ resource "google_secret_manager_secret" "DB_PASSWORD" {
     }
   }
 
-  secret_id = "SQL_DB_PASSWORD"
+  secret_id = var.google_secret_manager_secret_DB_PASSWD_SECRET_ID
 }
 
 resource "google_secret_manager_secret_version" "DB_PASSWORD_VALUE" {
