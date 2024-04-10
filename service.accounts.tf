@@ -12,3 +12,9 @@ resource "google_service_account" "pub_sub_service_account" {
   account_id   = var.pub_sub_service_account_id
   display_name = var.pub_sub_service_account_disp_name
 }
+
+# FOR Adding CMEK to SQL
+resource "google_project_service_identity" "gcp_sa_cloud_sql" {
+  provider = google-beta
+  service  = "sqladmin.googleapis.com"
+}

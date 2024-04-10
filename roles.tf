@@ -70,3 +70,14 @@ resource "google_project_iam_binding" "cloud_functions_invoker" {
     "serviceAccount:${google_service_account.pub_sub_service_account.email}"
   ]
 }
+
+
+# For adding CMEK to SQL
+resource "google_kms_crypto_key_iam_binding" "crypto_key" {
+  crypto_key_id = google_kms_crypto_key.sql.id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = [
+    "serviceAccount:${google_project_service_identity.gcp_sa_cloud_sql.email}",
+  ]
+}
