@@ -24,3 +24,8 @@ variable "pub_sub_service_account_disp_name" {
   type    = string
   default = "Pub Sub Service Account"
 }
+
+variable "google_project_service_identity_service" {
+  type = string
+  default = "sqladmin.googleapis.com"
+}
