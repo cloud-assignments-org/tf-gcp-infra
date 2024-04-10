@@ -32,6 +32,18 @@ resource "google_project_iam_binding" "pub_sub_publisher" {
   ]
 }
 
+# FOR KMS
+# Refer: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
+resource "google_project_iam_binding" "crypto_key_encrypter_decrypter" {
+  project = var.project_id
+  role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = [
+    "serviceAccount:service-508331596145@compute-system.iam.gserviceaccount.com"
+    
+  ]
+}
+
 # We need to provide both the toke creator and the cloud functions invoker role 
 # to the pubsub service account
 # This service account will be used to trigger the cloud function
