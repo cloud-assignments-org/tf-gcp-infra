@@ -14,5 +14,7 @@ resource "google_compute_region_instance_group_manager" "webapp" {
     name              = var.instance_group_manager_version_name
   }
 
+  depends_on = [ google_compute_region_instance_template.webapp ]
+
   base_instance_name = var.base_instance_name
 }
