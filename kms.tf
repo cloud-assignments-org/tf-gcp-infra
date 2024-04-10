@@ -1,6 +1,6 @@
 # Defining a Key Ring
 resource "google_kms_key_ring" "webapp" {
-  name     = "webapp-key-ring"
+  name     = var.kms_key_ring_name
   location = var.region
 }
 
@@ -35,19 +35,19 @@ The rotation period has the format of a decimal number with up to 9 fractional d
 followed by the letter s (seconds). It must be greater than a day (ie, 86400).
 **/
 resource "google_kms_crypto_key" "vm" {
-  name            = "vm-key"
+  name            = var.kms_vm_crypto_key_name
   key_ring        = google_kms_key_ring.webapp.id
-  rotation_period = "2592000s"
+  rotation_period = var.kms_vm_crypto_key_rotation_period
 }
 
 resource "google_kms_crypto_key" "sql" {
-  name            = "sql-key"
+  name            = var.kms_sql_crypto_key_name
   key_ring        = google_kms_key_ring.webapp.id
-  rotation_period = "2592000s"
+  rotation_period = var.kms_sql_crypto_key_rotation_period
 }
 
 resource "google_kms_crypto_key" "storage" {
-  name            = "storage-bucket-key"
+  name            = var.kms_storage_bucket_crypto_key_name
   key_ring        = google_kms_key_ring.webapp.id
-  rotation_period = "2592000s"
+  rotation_period = var.kms_storage_bucket_crypto_key_rotation_period
 }
