@@ -1,3 +1,13 @@
+resource "google_storage_bucket" "cloud_fn_source" {
+  name = var.cloud_fn_source_bucket
+  location = var.region
+
+  encryption {
+    default_kms_key_name = google_kms_crypto_key.storage.id
+  }
+}
+
+
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudfunctions2_function
 data "google_storage_bucket_object" "cloud_fn_source" {
   name   = var.cloud_fn_source_name

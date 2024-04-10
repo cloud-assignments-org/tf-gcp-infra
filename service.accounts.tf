@@ -18,3 +18,9 @@ resource "google_project_service_identity" "gcp_sa_cloud_sql" {
   provider = google-beta
   service  = "sqladmin.googleapis.com"
 }
+
+
+# For adding CMEK to Cloud Storage
+data "google_storage_project_service_account" "gcs_account" {
+}
+
