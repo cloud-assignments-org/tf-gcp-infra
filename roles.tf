@@ -36,10 +36,10 @@ resource "google_project_iam_binding" "pub_sub_publisher" {
 # Refer: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
 resource "google_project_iam_binding" "crypto_key_encrypter_decrypter" {
   project = var.project_id
-  role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  role    = var.crypto_key_encrypter_decrypter_role
 
   members = [
-    "serviceAccount:service-508331596145@compute-system.iam.gserviceaccount.com"
+    "serviceAccount:service-${var.project_number}@compute-system.iam.gserviceaccount.com"
 
   ]
 }
@@ -75,7 +75,7 @@ resource "google_project_iam_binding" "cloud_functions_invoker" {
 # For adding CMEK to SQL
 resource "google_kms_crypto_key_iam_binding" "crypto_key" {
   crypto_key_id = google_kms_crypto_key.sql.id
-  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  role          = var.crypto_key_encrypter_decrypter_role
 
   members = [
     "serviceAccount:${google_project_service_identity.gcp_sa_cloud_sql.email}",
@@ -85,7 +85,7 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
 # For adding CMEK to Cloud Storage
 resource "google_kms_crypto_key_iam_binding" "binding" {
   crypto_key_id = google_kms_crypto_key.storage.id
-  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  role          = var.crypto_key_encrypter_decrypter_role
 
   members = ["serviceAccount:${data.google_storage_project_service_account.gcs_account.email_address}"]
 }
