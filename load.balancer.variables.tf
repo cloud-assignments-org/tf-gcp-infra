@@ -75,21 +75,21 @@ variable "backend_capacity_scaler" {
 variable "url_map_name" {
   type        = string
   description = "The name of the URL map"
-  default = "webapp-url-map"
+  default     = "webapp-url-map"
 }
 
 # SSL Certificate
 variable "ssl_certificate_name" {
   type        = string
   description = "The name of the SSL certificate"
-  default = "webapp-ssl-cert"
+  default     = "webapp-ssl-cert"
 }
 
 # Target HTTPS Proxy 
 variable "https_proxy_name" {
   type        = string
   description = "The name of target HTTPS proxy"
-  default = "webapp-target-htttp-proxy"
+  default     = "webapp-target-htttp-proxy"
 }
 
 # Reserver IP

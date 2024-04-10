@@ -59,7 +59,7 @@ resource "google_secret_manager_secret" "DB_HOST" {
 }
 
 resource "google_secret_manager_secret_version" "DB_HOST_VALUE" {
-  secret = google_secret_manager_secret.DB_HOST.id
+  secret      = google_secret_manager_secret.DB_HOST.id
   secret_data = google_sql_database_instance.instance.private_ip_address
 }
 
@@ -76,6 +76,6 @@ resource "google_secret_manager_secret" "DB_PASSWORD" {
 }
 
 resource "google_secret_manager_secret_version" "DB_PASSWORD_VALUE" {
-  secret = google_secret_manager_secret.DB_PASSWORD.id
+  secret      = google_secret_manager_secret.DB_PASSWORD.id
   secret_data = google_sql_user.user.password
 }

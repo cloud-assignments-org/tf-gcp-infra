@@ -77,7 +77,7 @@ the specified target tags, as shown in Creating a managed instance group.
 **/
 
 resource "google_compute_firewall" "allow_load_balancer_proxy" {
-  name        = var.allow_lb_proxy_name
+  name = var.allow_lb_proxy_name
   allow {
     ports    = [var.app_port]
     protocol = var.allow_lb_proxy_protocol
