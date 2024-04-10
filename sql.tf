@@ -42,3 +42,39 @@ resource "google_sql_user" "user" {
   instance = google_sql_database_instance.instance.name
   password = random_password.password.result
 }
+
+
+# GCloud Secret to be used in Rolling Update Script through GCloud Secrets manager
+resource "google_secret_manager_secret" "DB_HOST" {
+  replication {
+    user_managed {
+      replicas {
+        location = var.region
+      }
+    }
+  }
+
+  secret_id = "SQL_DB_HOST"
+}
+
+resource "google_secret_manager_secret_version" "DB_HOST_VALUE" {
+  secret = google_secret_manager_secret.DB_HOST.id
+  secret_data = google_sql_database_instance.instance.private_ip_address
+}
+
+resource "google_secret_manager_secret" "DB_PASSWORD" {
+  replication {
+    user_managed {
+      replicas {
+        location = var.region
+      }
+    }
+  }
+
+  secret_id = "SQL_DB_PASSWORD"
+}
+
+resource "google_secret_manager_secret_version" "DB_PASSWORD_VALUE" {
+  secret = google_secret_manager_secret.DB_PASSWORD.id
+  secret_data = google_sql_user.user.password
+}
