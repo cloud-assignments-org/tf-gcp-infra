@@ -22,3 +22,8 @@ variable "cloud_functions_run_invoker_role" {
   type        = string
   description = "The role that has to be assigned"
 }
+
+variable "crypto_key_encrypter_decrypter_role" {
+  type        = string
+  description = "The role that has to be assigned"
+}
