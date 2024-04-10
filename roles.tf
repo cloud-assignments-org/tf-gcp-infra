@@ -81,3 +81,11 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
     "serviceAccount:${google_project_service_identity.gcp_sa_cloud_sql.email}",
   ]
 }
+
+# For adding CMEK to Cloud Storage
+resource "google_kms_crypto_key_iam_binding" "binding" {
+  crypto_key_id = google_kms_crypto_key.storage.id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = ["serviceAccount:${data.google_storage_project_service_account.gcs_account.email_address}"]
+}
