@@ -17,12 +17,12 @@ resource "google_compute_region_autoscaler" "webapp" {
     min_replicas    = var.auto_scaler_min_replicas
     cooldown_period = var.auto_scaler_cooldown_period
     mode            = var.auto_scaler_mode
-    
+
     cpu_utilization {
       target = var.auto_scaler_target_cpu_utilization
     }
 
-    
+
 
     scale_in_control {
       max_scaled_in_replicas {
@@ -31,6 +31,6 @@ resource "google_compute_region_autoscaler" "webapp" {
       time_window_sec = var.auto_scaler_scale_in_control_time_window_sec
     }
   }
-  
+
 
 }

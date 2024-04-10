@@ -113,12 +113,12 @@ resource "google_compute_backend_service" "webapp" {
 resource "google_compute_url_map" "webapp" {
   name            = var.url_map_name
   default_service = google_compute_backend_service.webapp.id
-  depends_on = [ google_compute_backend_service.webapp  ]
-} 
+  depends_on      = [google_compute_backend_service.webapp]
+}
 
 resource "google_compute_managed_ssl_certificate" "webapp_lb" {
   name = var.ssl_certificate_name
-  
+
   managed {
     domains = [var.domain_name]
   }
@@ -155,11 +155,11 @@ tuple.1
 */
 
 resource "google_compute_global_forwarding_rule" "webapp" {
-  name                   = var.forwarding_rule_name
-  depends_on             = [google_compute_subnetwork.lb_proxy_only]
-  ip_protocol            = var.forwarding_rule_ip_protocol
-  load_balancing_scheme  = var.forwarding_rule_load_balancing_scheme
-  port_range             = var.env_variables_api_port
-  target                 = google_compute_target_https_proxy.webapp.id
-  ip_address             = google_compute_global_address.load_balancer_ip.id
+  name                  = var.forwarding_rule_name
+  depends_on            = [google_compute_subnetwork.lb_proxy_only]
+  ip_protocol           = var.forwarding_rule_ip_protocol
+  load_balancing_scheme = var.forwarding_rule_load_balancing_scheme
+  port_range            = var.env_variables_api_port
+  target                = google_compute_target_https_proxy.webapp.id
+  ip_address            = google_compute_global_address.load_balancer_ip.id
 }

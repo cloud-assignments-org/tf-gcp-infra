@@ -40,7 +40,7 @@ resource "google_project_iam_binding" "crypto_key_encrypter_decrypter" {
 
   members = [
     "serviceAccount:service-508331596145@compute-system.iam.gserviceaccount.com"
-    
+
   ]
 }
 
