@@ -1,6 +1,6 @@
 # Defining a Key Ring
 resource "google_kms_key_ring" "webapp" {
-  name     = var.kms_key_ring_name
+  name     = "${var.kms_key_ring_name}-${random_string.key_ring_name_random_suffix.result}"
   location = var.region
 }
 
@@ -35,19 +35,40 @@ The rotation period has the format of a decimal number with up to 9 fractional d
 followed by the letter s (seconds). It must be greater than a day (ie, 86400).
 **/
 resource "google_kms_crypto_key" "vm" {
-  name            = var.kms_vm_crypto_key_name
+  name            = "${var.kms_vm_crypto_key_name}-${random_string.vm_key_name_random_suffix.result}"
   key_ring        = google_kms_key_ring.webapp.id
   rotation_period = var.kms_vm_crypto_key_rotation_period
 }
 
 resource "google_kms_crypto_key" "sql" {
-  name            = var.kms_sql_crypto_key_name
+  name            = "${var.kms_sql_crypto_key_name}-${random_string.sql_key_name_random_suffix.result}"
   key_ring        = google_kms_key_ring.webapp.id
   rotation_period = var.kms_sql_crypto_key_rotation_period
 }
 
 resource "google_kms_crypto_key" "storage" {
-  name            = var.kms_storage_bucket_crypto_key_name
+  name            = "${var.kms_storage_bucket_crypto_key_name}-${random_string.storage_key_name_random_suffix.result}"
   key_ring        = google_kms_key_ring.webapp.id
   rotation_period = var.kms_storage_bucket_crypto_key_rotation_period
+}
+
+
+resource "random_string" "key_ring_name_random_suffix" {
+  length           = var.kms_key_names_random_string_length
+  special          = var.kms_key_names_random_string_suffix_spl
+}
+
+resource "random_string" "vm_key_name_random_suffix" {
+  length           = var.kms_key_names_random_string_length
+  special          = var.kms_key_names_random_string_suffix_spl
+}
+
+resource "random_string" "sql_key_name_random_suffix" {
+  length           = var.kms_key_names_random_string_length
+  special          = var.kms_key_names_random_string_suffix_spl
+}
+
+resource "random_string" "storage_key_name_random_suffix" {
+  length           = var.kms_key_names_random_string_length
+  special          = var.kms_key_names_random_string_suffix_spl
 }
