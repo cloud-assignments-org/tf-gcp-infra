@@ -1,6 +1,5 @@
 resource "google_compute_region_instance_template" "webapp" {
   name = "webapp-template"
-
   # Here we bring in the same config as we have for our compute instance
 
   # Disks to attach to instances created from this template. 
@@ -13,6 +12,9 @@ resource "google_compute_region_instance_template" "webapp" {
     source_image = "projects/${var.project_id}/global/images/${var.image_name}"
     type         = var.webapp_disk_type
     disk_size_gb = var.machine_size
+    disk_encryption_key {
+      kms_key_self_link = google_kms_crypto_key.vm.id
+    }
   }
   machine_type = var.machine_type
 
