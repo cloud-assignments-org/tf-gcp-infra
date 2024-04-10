@@ -41,7 +41,7 @@ resource "google_compute_region_instance_template" "webapp" {
     subnetwork = google_compute_subnetwork.webapp.self_link
 
     access_config {
-      network_tier = "STANDARD"
+      network_tier = var.network_interface_access_config_tier
     }
   }
   region = var.region

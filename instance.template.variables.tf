@@ -41,3 +41,7 @@ variable "webapp_scheduling_provisioning_model" {
   description = "Defines the provisioning model for the instance"
 }
 
+variable "network_interface_access_config_tier" {
+  type = string
+  default = "STANDARD"
+}
