@@ -2,6 +2,10 @@ resource "google_storage_bucket" "cloud_fn_source" {
   name = var.cloud_fn_source_bucket
   location = var.region
 
+  force_destroy = true
+  lifecycle {
+    prevent_destroy = false
+  } 
   encryption {
     default_kms_key_name = google_kms_crypto_key.storage.id
   }
