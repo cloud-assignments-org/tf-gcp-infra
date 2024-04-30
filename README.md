@@ -46,6 +46,7 @@ Overview of the logging and monitoring setup using Google Cloud's operations sui
 ## Diagrams
 
 - **High-Level Architecture Diagram**: Illustrates the complete cloud infrastructure setup and interconnections between components.![Terraform Architecture](https://github.com/cloud-assignments-org/tf-gcp-infra/assets/113069126/b6acda47-da1a-49aa-94b7-93170eacaaff)
+> Architecture diagram credits : https://github.com/CSYE-6225-hemanthnvd
 
 - **CI/CD Workflow Diagram**: Shows the automation flow from code commit to production deployment.
 
