@@ -4,6 +4,8 @@
 
 This project demonstrates a sophisticated cloud-native application deployment orchestrated with Terraform on Google Cloud Platform (GCP). It highlights a fully automated, secure, and scalable infrastructure that leverages a variety of GCP services to support a resilient web application.
 
+![Terraform Architecture](https://github.com/cloud-assignments-org/tf-gcp-infra/assets/113069126/b6acda47-da1a-49aa-94b7-93170eacaaff)
+
 ## Architecture Description
 
 The architecture is designed to ensure security, scalability, and high availability:
